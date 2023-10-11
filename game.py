@@ -16,9 +16,9 @@ DREADNOUGHT_WIDTH = 30
 SPEED = 0.01
 
 # Searchlight configuration
-SEARCHLIGHT_COLOR = (255, 255, 0, 50)  # Adjusted alpha value for more transparency
+SEARCHLIGHT_COLOR = (255, 255, 0, 50)  # Adjusted alpha value for more transparency (smaller is more transparent)
 SEARCHLIGHT_RADIUS = 150
-cone_angle = math.pi / 4  # Adjusted cone angle as per your preference
+cone_angle = math.pi / 4  # Adjust cone angle (smaller is bigger)
 
 # Main game loop
 def game_loop():
