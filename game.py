@@ -15,8 +15,9 @@ DREADNOUGHT_SIZE = 50
 SPEED = 0.01
 
 # Searchlight configuration
-SEARCHLIGHT_COLOR = (255, 255, 0)
-SEARCHLIGHT_RADIUS = 100
+SEARCHLIGHT_COLOR = (255, 255, 0, 50)  # Reduce alpha value for more transparency, increase alpha value for less transparency
+SEARCHLIGHT_RADIUS = 150  # Update to make the searchlight larger or smaller
+
 
 # Main game loop
 def game_loop():
@@ -52,14 +53,20 @@ def game_loop():
         dx = mouse_x - dreadnought_position[0]
         dy = mouse_y - dreadnought_position[1]
         angle = math.atan2(dy, dx)
-        end_x = dreadnought_position[0] + math.cos(angle) * SEARCHLIGHT_RADIUS
-        end_y = dreadnought_position[1] + math.sin(angle) * SEARCHLIGHT_RADIUS
-        pygame.draw.line(screen, SEARCHLIGHT_COLOR, (dreadnought_position[0] + DREADNOUGHT_SIZE // 2, 
-                                                    dreadnought_position[1] + DREADNOUGHT_SIZE // 2), (end_x, end_y), 3)
+        cone_angle = math.pi / 4  # Adjust this value to change the cone's size
+        left_angle = angle - cone_angle / 2
+        right_angle = angle + cone_angle / 2
+        points = [
+            (dreadnought_position[0] + DREADNOUGHT_SIZE // 2, dreadnought_position[1] + DREADNOUGHT_SIZE // 2),
+            (dreadnought_position[0] + math.cos(left_angle) * SEARCHLIGHT_RADIUS + DREADNOUGHT_SIZE // 2, 
+             dreadnought_position[1] + math.sin(left_angle) * SEARCHLIGHT_RADIUS + DREADNOUGHT_SIZE // 2),
+            (dreadnought_position[0] + math.cos(right_angle) * SEARCHLIGHT_RADIUS + DREADNOUGHT_SIZE // 2, 
+             dreadnought_position[1] + math.sin(right_angle) * SEARCHLIGHT_RADIUS + DREADNOUGHT_SIZE // 2)
+        ]
+        pygame.draw.polygon(screen, SEARCHLIGHT_COLOR, points)
 
         # Update the display
         pygame.display.flip()
 
 # Run the game loop
 game_loop()
-
